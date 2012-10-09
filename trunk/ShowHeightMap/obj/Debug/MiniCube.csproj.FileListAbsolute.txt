@@ -1,0 +1,11 @@
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\obj\Debug\ResolveAssemblyReference.cache
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\bin\Debug\SharpDX.Direct3D9.dll
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\bin\Debug\SharpDX.dll
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\bin\Debug\SharpDX.xml
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\bin\Debug\SharpDX.Direct3D9.xml
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\obj\Debug\MiniCube.exe
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\obj\Debug\MiniCube.pdb
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\bin\Debug\MiniCube.exe
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\MiniCube\bin\Debug\MiniCube.pdb
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\ShowHeightmap\obj\Debug\MiniCube.exe
+C:\temp\DATRON_Fraes3D_Projekt\Erstes_NET_Projekt\ShowHeightmap\obj\Debug\MiniCube.pdb
