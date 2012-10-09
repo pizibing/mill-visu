@@ -1,0 +1,8 @@
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\Content\effect.xnb
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\Content\SpriteFont1.xnb
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\VisualMill.exe
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\VisualMill.pdb
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMill\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMill\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMill\obj\x86\Debug\VisualMill.exe
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMill\obj\x86\Debug\VisualMill.pdb
