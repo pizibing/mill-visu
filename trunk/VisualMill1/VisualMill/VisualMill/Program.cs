@@ -2,7 +2,7 @@ using System;
 
 namespace VisualMill
 {
-#if WINDOWS || XBOX
+#if WINDOWS
     static class Program
     {
         /// <summary>
@@ -10,10 +10,10 @@ namespace VisualMill
         /// </summary>
         static void Main(string[] args)
         {
-            using (MainProgramm game = new MainProgramm())
-            {
-                game.Run();
-            }
+            //MainForm form = new MainForm();
+            //form.Show();
+            MainProgramm game = new MainProgramm();          
+            game.Run();            
         }
     }
 #endif
