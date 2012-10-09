@@ -3,3 +3,4 @@ H:\VisualMill1\VisualMill\VisualMillContent\obj\x86\Debug\ResolveAssemblyReferen
 C:\Users\Benjamin\Desktop\VisualMill1\VisualMill\VisualMillContent\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\bboeck\Desktop\VisualMill1\VisualMill\VisualMillContent\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\bboeck\Documents\Visual Studio 2010\Projects\VisualMill1\VisualMill\VisualMillContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMillContent\obj\x86\Debug\ResolveAssemblyReference.cache
