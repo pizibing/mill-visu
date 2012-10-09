@@ -20,7 +20,9 @@ namespace VisualMill
     /// </summary>
     public class MainProgramm : Microsoft.Xna.Framework.Game
     {
- 
+
+        private IntPtr drawSurface; 
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont Font;
@@ -81,10 +83,46 @@ namespace VisualMill
         //}
 
 
+        /// <summary>
+        /// Event capturing the construction of a draw surface and makes sure this gets redirected to
+        /// a predesignated drawsurface marked by pointer drawSurface
+        /// </summary>
+        void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+                e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle =
+                drawSurface;
+        }
+
+        /// <summary>
+        /// Occurs when the original gamewindows' visibility changes and makes sure it stays invisible
+        /// </summary>
+        ///
+        private void Game1_VisibleChanged(object sender, EventArgs e)
+        {
+                if (System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible == true)
+                    System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible = false;
+        }
+
+        //public MainProgramm(IntPtr drawSurface)
+        
         public MainProgramm()
         {
+        
+            MainForm form = new MainForm();
+           
+            form.Show();
+            IntPtr drawSurface = form.getDrawSurface();
+
             graphics = new GraphicsDeviceManager(this);     
             Content.RootDirectory = "Content";
+
+
+            this.drawSurface = drawSurface;
+            graphics.PreparingDeviceSettings +=
+                          new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
+            System.Windows.Forms.Control.FromHandle((this.Window.Handle)).VisibleChanged +=
+                   new EventHandler(Game1_VisibleChanged);
+
         }
 
         /// <summary>
@@ -144,7 +182,7 @@ namespace VisualMill
             const float fTrans = 4f;
             const float fRot = 0.02f;
             const float fScale = 0.001f;
-
+    
             float xRot = 0;
             float yRot = 0;
             float xTrans = 0;
@@ -158,28 +196,34 @@ namespace VisualMill
             int dx = MouseState.X - LastMouseState.X;
             int dy = MouseState.Y - LastMouseState.Y;
 
+            //load file
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.L) && KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
+            {
+                LoadNCFile();
+            }
+
             //calc the translation
-            if (MouseState.LeftButton == ButtonState.Pressed)
+            if (MouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 xTrans = dx * PixelUnitRatio;
                 yTrans = dy * -PixelUnitRatio;
             }
 
             //calc the rotation
-            if (MouseState.MiddleButton == ButtonState.Pressed)
+            if (MouseState.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 xRot = fRot * dx * 0.5f;
                 yRot = fRot * dy * 0.5f;
             }
 
             //center the Part
-            if (MouseState.RightButton == ButtonState.Pressed & !LookBackmove)
+            if (MouseState.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed & !LookBackmove)
             {
                 xTrans = -(MouseState.X - this.graphics.GraphicsDevice.Viewport.Width / 2) * PixelUnitRatio;
                 yTrans = (MouseState.Y - this.graphics.GraphicsDevice.Viewport.Height / 2) * PixelUnitRatio;
                 LookBackmove = true;
             }
-            if (MouseState.RightButton == ButtonState.Released)
+            if (MouseState.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Released)
             {
                 LookBackmove = false;
             }
@@ -190,37 +234,33 @@ namespace VisualMill
 
             //do the key work
             //calc the rotation
-            if (KeyState.IsKeyDown(Keys.Left) && !KeyState.IsKeyDown(Keys.RightControl))
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left) && !KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightControl))
             {
                 xRot = -fRot;
             }
-            if (KeyState.IsKeyDown(Keys.Right) && !KeyState.IsKeyDown(Keys.RightControl))
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right) && !KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightControl))
             {
                 xRot = fRot;
             }
-            if (KeyState.IsKeyDown(Keys.Up) && !KeyState.IsKeyDown(Keys.RightControl))
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up) && !KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightControl))
             {
                 yRot = -fRot;
             }
-            if (KeyState.IsKeyDown(Keys.Down) && !KeyState.IsKeyDown(Keys.RightControl))
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down) && !KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightControl))
             {
                 yRot = fRot;
             }
 
             //calc the translation
-            if (KeyState.IsKeyDown(Keys.Left) && KeyState.IsKeyDown(Keys.RightControl))
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left) && KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightControl))
             {
                 xTrans = -fTrans;
             }
-            if (KeyState.IsKeyDown(Keys.Right) && KeyState.IsKeyDown(Keys.RightControl))
-            {
-                xTrans = fTrans;
-            }
-            if (KeyState.IsKeyDown(Keys.Up) && KeyState.IsKeyDown(Keys.RightControl))
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up) && KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightControl))
             {
                 yTrans = fTrans;
             }
-            if (KeyState.IsKeyDown(Keys.Down) && KeyState.IsKeyDown(Keys.RightControl))
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down) && KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightControl))
             {
                 yTrans = -fTrans;
             }
@@ -515,9 +555,49 @@ namespace VisualMill
             //CreateMeshFromBitmap(@"C:\Users\bboeck\Desktop\VisualMill1\TestAusgabeSmal.jpg");
         
             //CreateNCPath("SCHLICHTEN 0_002.NC");
-            CreateNCPath(@"C:\Users\bboeck\Desktop\Key Test All with T-Check-Dfeed-SM.MCR");
+            LoadNCFile(@"I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\Testdaten\OBERTEIL_SCHRUPPEN.NC");
             effect = Content.Load<Effect>("effect");
         }
+
+        /// <summary>
+        /// Open a NC File into a Linestrip
+        /// </summary>
+        /// <returns></returns>       
+        public bool LoadNCFile()
+        {
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog.CheckFileExists = true;
+            OpenFileDialog.Filter = "NC Files (*.NC *.ISO)|*.nc *.iso|Datron (*.MCR)|*.mcr|All Files (*.*)|*.*";
+            OpenFileDialog.FilterIndex = 0;
+            OpenFileDialog.RestoreDirectory = true;
+
+            if (OpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+            
+             CreateNCPath(OpenFileDialog.FileName);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Open a NC File into a Linestrip
+        /// </summary>
+        /// <returns></returns>
+        public bool LoadNCFile(string Filename)
+        {
+            if (System.IO.File.Exists(Filename))
+            {
+                CreateNCPath(Filename);
+                return true;
+            }
+            else
+                return LoadNCFile();
+
+            return false;
+        }
+    
  
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -536,7 +616,7 @@ namespace VisualMill
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 this.Exit();
 
             // TODO: Add your update logic here

@@ -46,7 +46,6 @@ namespace VisualMill
 
             if (!System.IO.File.Exists(filename))
             {
-                //System.Windows.Forms.MessageBox.Show("Fehler beim lesen der Datei:" + filename);
                 throw new Exception("Error reading Image Files");
             } 
 
