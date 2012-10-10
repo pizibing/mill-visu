@@ -83,31 +83,9 @@ namespace VisualMill
         //}
 
 
-        /// <summary>
-        /// Event capturing the construction of a draw surface and makes sure this gets redirected to
-        /// a predesignated drawsurface marked by pointer drawSurface
-        /// </summary>
-        void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
-        {
-                e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle =
-                drawSurface;
-        }
-
-        /// <summary>
-        /// Occurs when the original gamewindows' visibility changes and makes sure it stays invisible
-        /// </summary>
-        ///
-        private void Game1_VisibleChanged(object sender, EventArgs e)
-        {
-                if (System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible == true)
-                    System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible = false;
-        }
-
-        //public MainProgramm(IntPtr drawSurface)
         
         public MainProgramm()
-        {
-        
+        {        
             MainForm form = new MainForm();
            
             form.Show();
@@ -133,10 +111,7 @@ namespace VisualMill
         /// </summary>
         protected override void Initialize()
         {
-
-            base.Initialize();
-
-           
+            base.Initialize();       
             //set size of the screen
             graphics.PreferredBackBufferWidth = 1300;
             graphics.PreferredBackBufferHeight = (int)(1300 / 1.6);
@@ -169,6 +144,26 @@ namespace VisualMill
             //MathHelper.ToRadians(45), (float)GraphicsDevice.Viewport.Width / (float)GraphicsDevice.Viewport.Height, 1.0f, 100.0f);
         }
 
+        /// <summary>
+        /// Event capturing the construction of a draw surface and makes sure this gets redirected to
+        /// a predesignated drawsurface marked by pointer drawSurface
+        /// </summary>
+        void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle =
+            drawSurface;
+        }
+
+        /// <summary>
+        /// Occurs when the original gamewindows' visibility changes and makes sure it stays invisible
+        /// </summary>
+        ///
+        private void Game1_VisibleChanged(object sender, EventArgs e)
+        {
+            if (System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible == true)
+                System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible = false;
+        }
+  
         KeyboardState KeyState;
         MouseState MouseState;
         MouseState LastMouseState;
@@ -230,7 +225,17 @@ namespace VisualMill
 
             //calc the scale
             Scale = (float)(1 - (MouseState.ScrollWheelValue - LastMouseState.ScrollWheelValue) * fScale);
+            Debug.WriteLine(MouseState.ScrollWheelValue.ToString());
 
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Add))
+            {
+                Scale += 0.05f;
+            }
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Subtract))
+            {
+                Scale -= 0.05f;
+            }
+       
 
             //do the key work
             //calc the rotation
@@ -472,6 +477,8 @@ namespace VisualMill
         double PathLength = 0;
         private void CreateNCPath(string Filename)
         {
+            ModelMesh testmesh = new ModelMesh();
+     
 
             if (!System.IO.File.Exists(Filename))
             {
@@ -510,9 +517,11 @@ namespace VisualMill
                     CurrentAngle = 0;
                 }
 
-                 CurrentColor = (int)(CurrentAngle * 60); //the constant facor makes the window of colorchange 360/knick°= factor
+                CurrentColor = (int)(CurrentAngle * 60); //the constant facor makes the window of colorchange 360/knick°= factor
+                if (CurrentAngle > 3) CurrentColor = 255; else CurrentColor = 0;
+                
                 if (CurrentColor > 255) CurrentColor = 255;
-                if (CurrentAngle > 45) CurrentColor = 0;
+                //if (CurrentAngle > 70) CurrentColor = 0;
 
 
                 CurrentVertePositionColored.Color = Color.FromNonPremultiplied((int)(CurrentColor), (int)(255 - CurrentColor), 0, 255);
@@ -555,7 +564,7 @@ namespace VisualMill
             //CreateMeshFromBitmap(@"C:\Users\bboeck\Desktop\VisualMill1\TestAusgabeSmal.jpg");
         
             //CreateNCPath("SCHLICHTEN 0_002.NC");
-            LoadNCFile(@"I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\Testdaten\OBERTEIL_SCHRUPPEN.NC");
+            LoadNCFile(@"aaC:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\Testdaten\OBERTEIL_SCHRUPPEN.NC");
             effect = Content.Load<Effect>("effect");
         }
 
@@ -572,8 +581,7 @@ namespace VisualMill
             OpenFileDialog.RestoreDirectory = true;
 
             if (OpenFileDialog.ShowDialog() == DialogResult.OK)
-            {
-            
+            {            
              CreateNCPath(OpenFileDialog.FileName);
                 return true;
             }
