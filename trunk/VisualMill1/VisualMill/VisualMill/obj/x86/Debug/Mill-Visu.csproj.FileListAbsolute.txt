@@ -25,3 +25,6 @@ I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\V
 I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\VisualMill.pdb
 I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\obj\x86\Debug\VisualMill.pdb
 I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\obj\x86\Debug\VisualMill.MainForm.resources
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMill\obj\x86\Debug\VisualMill.MainForm.resources
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMill\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMill\obj\x86\Debug\GenerateResource.write.1.tlog
