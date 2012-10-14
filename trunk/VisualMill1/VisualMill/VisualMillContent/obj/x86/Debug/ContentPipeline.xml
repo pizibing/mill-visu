@@ -7,8 +7,8 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMill\bin\x86\Debug\Content\effect.xnb</Output>
-      <Time>2012-10-09T17:04:15.1976237+02:00</Time>
+      <Output>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\Content\effect.xnb</Output>
+      <Time>2012-10-09T18:51:02+02:00</Time>
     </Item>
     <Item>
       <Source>SpriteFont1.spritefont</Source>
@@ -16,8 +16,28 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMill\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
-      <Time>2012-10-09T17:04:15.2156237+02:00</Time>
+      <Output>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
+      <Time>2012-10-09T18:51:02+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Globe.FBX</Source>
+      <Name>Globe</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\Content\Globe.xnb</Output>
+      <Time>2012-10-03T20:32:04+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Globe_0.xml</Key>
+        <Value>2012-10-14T22:00:26.0612939+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Globe.FBX</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Globe_0.xml</Output>
+      <Time>2012-10-03T20:32:04+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -25,10 +45,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMillContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMill\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMillContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\bboeck\Documents\Visual Studio 2010\Projects\SVN\VisualMill\VisualMill\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMillContent\</RootDirectory>
+      <LoggerRootDirectory>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\</LoggerRootDirectory>
+      <IntermediateDirectory>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMillContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -57,7 +77,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2012-10-08T09:50:39.2853024+02:00</Value>
+        <Value>2012-09-28T21:47:16.5795404+02:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
