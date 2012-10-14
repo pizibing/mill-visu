@@ -285,7 +285,7 @@ namespace VisualMill
             //CreateMeshFromBitmap(@"C:\Users\bboeck\Desktop\VisualMill1\TestAusgabeSmal.jpg");
              
             NCPath = new Geometry.cNCPath(GraphicsDevice, effect, @"I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\Testdaten\OBERTEIL_SCHRUPPEN.NC");
-            Mesh= new Geometry.ImportMesh(GraphicsDevice,effect,Content.Load<Model>("Globe"));
+            Mesh= new Geometry.ImportMesh(GraphicsDevice,effect,Content.Load<Model>("CUbe"));
        
         }
 
