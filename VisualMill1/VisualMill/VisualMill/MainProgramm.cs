@@ -75,6 +75,7 @@ namespace VisualMill
             MainForm form = new MainForm();
            
             form.Show();
+            form.MouseWheel += new MouseEventHandler(MouseWheel);
             IntPtr drawSurface = form.getDrawSurface();
 
             graphics = new GraphicsDeviceManager(this);     
@@ -154,6 +155,19 @@ namespace VisualMill
         MouseState MouseState;
         MouseState LastMouseState;
         bool LookBackmove = false;
+
+        float mScale = 0;
+
+        /// <summary>
+        /// do the mouse wheel stuff scaling
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MouseWheel(object sender, MouseEventArgs e)
+        {
+            mScale += e.Delta*0.0005f;
+        }
+   
         /// <summary>
         /// Get the transformation of the World from Keyboard and Mouse
         /// </summary>
@@ -221,7 +235,10 @@ namespace VisualMill
             {
                 Scale -= 0.05f;
             }
-       
+
+            Scale += mScale;
+            mScale = 0;
+
 
             //do the key work
             //calc the rotation
@@ -258,13 +275,12 @@ namespace VisualMill
 
             //do the transformation
             Transfom = Transfom * Matrix.CreateFromYawPitchRoll(xRot, yRot, 0) * Matrix.CreateTranslation(xTrans, yTrans, 0) * Matrix.CreateScale(Scale);
-
+            
             //update the MouseState
             LastMouseState = MouseState;
         }
         #endregion
 
-  
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -377,9 +393,9 @@ namespace VisualMill
 
             //  effect.CurrentTechnique.Passes[0].Apply();
 
-            NCPath.Draw();
-            Mesh.Draw(worldMatrix,viewMatrix,projectionMatrix);
-     
+            NCPath.Draw();    
+            Mesh.Draw(worldMatrix, viewMatrix, projectionMatrix);
+    
             base.Draw(gameTime);
         }
 

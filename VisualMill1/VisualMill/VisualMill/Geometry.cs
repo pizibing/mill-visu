@@ -400,7 +400,14 @@ namespace VisualMill
                 state.CullMode = CullMode.None;
                 state.FillMode = FillMode.Solid;
                 GraphicsDevice.RasterizerState = state;
-                
+
+                //create position rigth up
+                Vector3 Scale;
+                Quaternion Rotation;
+                Vector3 Transform;
+                worldMatrix.Decompose(out Scale, out Rotation, out Transform);
+                Matrix NewWorld = Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(250, 150, 0);
+
                 //Draw Import Mesh
                 // Copy any parent transforms.
                 Matrix[] transforms = new Matrix[myModel.Bones.Count];
@@ -417,7 +424,7 @@ namespace VisualMill
                     foreach (BasicEffect Modeffect in mesh.Effects)
                     {                       
                         Modeffect.EnableDefaultLighting();
-                        Modeffect.World = transforms[mesh.ParentBone.Index] * worldMatrix;
+                        Modeffect.World = transforms[mesh.ParentBone.Index] * NewWorld;
                         //Modeffect.View = Matrix.CreateLookAt(new Vector3(0,0,500),
                         Modeffect.View = viewMatrix;
                         // new Vector3(0,0,0), Vector3.Up);
