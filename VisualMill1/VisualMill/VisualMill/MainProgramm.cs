@@ -78,6 +78,10 @@ namespace VisualMill
             form.MouseWheel += new MouseEventHandler(MouseWheel);
             IntPtr drawSurface = form.getDrawSurface();
 
+            Panel DrawPanel = form.GetPanel();
+            DrawPanel.MouseMove += new MouseEventHandler(MouseMove);
+
+
             graphics = new GraphicsDeviceManager(this);     
             Content.RootDirectory = "Content";
 
@@ -167,7 +171,14 @@ namespace VisualMill
         {
             mScale += e.Delta*0.0005f;
         }
-   
+
+        System.Drawing.Point MousePos;
+        System.Drawing.Point LastMousePos;
+        void MouseMove(object sender, MouseEventArgs e)
+        {
+            MousePos = e.Location;
+        }
+
         /// <summary>
         /// Get the transformation of the World from Keyboard and Mouse
         /// </summary>
@@ -186,10 +197,36 @@ namespace VisualMill
 
             MouseState = Mouse.GetState();
             KeyState = Keyboard.GetState();
+ 
+            ////do the Mouse work
+            //int dx = MouseState.X - LastMouseState.X;
+            //int dy = MouseState.Y - LastMouseState.Y;
 
             //do the Mouse work
-            int dx = MouseState.X - LastMouseState.X;
-            int dy = MouseState.Y - LastMouseState.Y;
+            int dx = MousePos.X - LastMousePos.X;
+            int dy = MousePos.Y - LastMousePos.Y;
+
+            //do the cubic position work
+            System.Drawing.Point CubeLocation = new System.Drawing.Point(1192, 80);
+            int CubeClickTolleranz = 40;
+            if (CubeLocation.X - CubeClickTolleranz < MousePos.X && MousePos.X < CubeLocation.X + CubeClickTolleranz &&
+                CubeLocation.Y - CubeClickTolleranz < MousePos.Y && MousePos.Y < CubeLocation.Y + CubeClickTolleranz &&
+                MouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                Vector3 CurrentWorldScale;
+                Quaternion CurrentWorldRotation;
+                Vector3 CurrentWorldTransform;
+
+                Transfom.Decompose(out CurrentWorldScale, out CurrentWorldRotation, out CurrentWorldTransform);
+                
+                CurrentWorldRotation.X = (float)(Math.Round(CurrentWorldRotation.X));
+                CurrentWorldRotation.Y = (float)(Math.Round(CurrentWorldRotation.Y));
+                CurrentWorldRotation.Z = (float)(Math.Round(CurrentWorldRotation.Z));
+                CurrentWorldRotation.W = (float)(Math.Round(CurrentWorldRotation.W/(Math.PI/2))*Math.PI/2);
+                CurrentWorldRotation.Normalize();
+
+                Transfom = Matrix.CreateFromQuaternion(CurrentWorldRotation) * Matrix.CreateTranslation(CurrentWorldTransform) * Matrix.CreateScale(CurrentWorldScale);
+            }
 
             //load file
             if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.L) && KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
@@ -214,8 +251,8 @@ namespace VisualMill
             //center the Part
             if (MouseState.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed & !LookBackmove)
             {
-                xTrans = -(MouseState.X - this.graphics.GraphicsDevice.Viewport.Width / 2) * PixelUnitRatio;
-                yTrans = (MouseState.Y - this.graphics.GraphicsDevice.Viewport.Height / 2) * PixelUnitRatio;
+                xTrans = -(MousePos.X - this.graphics.GraphicsDevice.Viewport.Width / 2) * PixelUnitRatio;
+                yTrans = (MousePos.Y - this.graphics.GraphicsDevice.Viewport.Height / 2) * PixelUnitRatio;
                 LookBackmove = true;
             }
             if (MouseState.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Released)
@@ -238,7 +275,6 @@ namespace VisualMill
 
             Scale += mScale;
             mScale = 0;
-
 
             //do the key work
             //calc the rotation
@@ -273,11 +309,18 @@ namespace VisualMill
                 yTrans = -fTrans;
             }
 
+            if (KeyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Home))
+            {
+                Transfom.Translation = new Vector3(0, 0, 0);
+            }
+ 
+
             //do the transformation
             Transfom = Transfom * Matrix.CreateFromYawPitchRoll(xRot, yRot, 0) * Matrix.CreateTranslation(xTrans, yTrans, 0) * Matrix.CreateScale(Scale);
-            
+           
             //update the MouseState
             LastMouseState = MouseState;
+            LastMousePos = MousePos;
         }
         #endregion
 
@@ -301,14 +344,14 @@ namespace VisualMill
             //CreateMeshFromBitmap(@"C:\Users\bboeck\Desktop\VisualMill1\TestAusgabeSmal.jpg");
              
             NCPath = new Geometry.cNCPath(GraphicsDevice, effect, @"I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\Testdaten\OBERTEIL_SCHRUPPEN.NC");
-            Mesh= new Geometry.ImportMesh(GraphicsDevice,effect,Content.Load<Model>("CUbe"));
+            Mesh= new Geometry.ImportMesh(GraphicsDevice,effect,Content.Load<Model>("Cube3"));
        
         }
 
         /// <summary>
         /// Open a NC File into a Linestrip
         /// </summary>
-        /// <returns></returns>       
+        /// <returns></returns>       -
         //public bool LoadNCFile()
         //{
         //    OpenFileDialog OpenFileDialog = new OpenFileDialog();
@@ -378,7 +421,7 @@ namespace VisualMill
         {
             GraphicsDevice.Clear(Color.Black);
 
-            //DrawText();
+            DrawText();
 
             //effect.CurrentTechnique = effect.Techniques["ColoredNoShading"];
             //effect.Parameters["xShowNormals"].SetValue(true);
@@ -414,19 +457,17 @@ namespace VisualMill
         //}
 
 
-        //private void DrawText()
-        //{
-        //    spriteBatch.Begin(SpriteSortMode.Texture, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullNone);
-        //    spriteBatch.DrawString(Font, "Lines Of NC Code " + myPath.VertexCount.ToString(), new Vector2(10, 10), Color.White);
-        //    spriteBatch.DrawString(Font, "Current Line    " + currentIndex.ToString()+ "  " +((float)currentIndex/(float)myPath.VertexCount*100).ToString("f2")+"%", new Vector2(10, 30), Color.White);
-        //    spriteBatch.DrawString(Font, "Path Length "+ PathLength.ToString("f3"), new Vector2(10, 50), Color.White);
-        //    //spriteBatch.DrawString(Font, "X Min Max 1200, 234", new Vector2(10, 50), Color.White);
-        //    //spriteBatch.DrawString(Font, "X Min Max 1200, 234", new Vector2(10, 70), Color.White);
-        //    spriteBatch.End();
-        //}
+        private void DrawText()
+        {
+            spriteBatch.Begin(SpriteSortMode.Texture, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            //spriteBatch.DrawString(Font, "Lines Of NC Code " + myPath.VertexCount.ToString(), new Vector2(10, 10), Color.White);
+            //spriteBatch.DrawString(Font, "Current Line    " + currentIndex.ToString() + "  " + ((float)currentIndex / (float)myPath.VertexCount * 100).ToString("f2") + "%", new Vector2(10, 30), Color.White);
+            //spriteBatch.DrawString(Font, "Path Length " + PathLength.ToString("f3"), new Vector2(10, 50), Color.White);
+            spriteBatch.DrawString(Font, "X Mouse " + MousePos.X.ToString(), new Vector2(10, 50), Color.White);
+            spriteBatch.DrawString(Font, "Y.Mouse " + MousePos.Y.ToString(), new Vector2(10, 70), Color.White);
+            spriteBatch.End();
+        }
 
-  
-    
         #endregion
     }
 }

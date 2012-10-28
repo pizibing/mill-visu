@@ -406,7 +406,7 @@ namespace VisualMill
                 Quaternion Rotation;
                 Vector3 Transform;
                 worldMatrix.Decompose(out Scale, out Rotation, out Transform);
-                Matrix NewWorld = Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(250, 150, 0);
+                Matrix NewWorld = Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(250, 150, 10000-200);
 
                 //Draw Import Mesh
                 // Copy any parent transforms.
@@ -449,7 +449,6 @@ namespace VisualMill
 
 
         }
-
 
     }
 }

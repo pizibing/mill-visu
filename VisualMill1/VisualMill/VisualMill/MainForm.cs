@@ -20,6 +20,11 @@ namespace VisualMill
             return panel1.Handle;
         }
 
+        public Panel GetPanel()
+        {
+            return panel1;
+        }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
