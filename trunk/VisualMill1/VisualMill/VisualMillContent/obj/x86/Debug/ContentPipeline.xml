@@ -59,6 +59,46 @@
       <Output>obj\x86\Debug\Cube_0.xml</Output>
       <Time>2012-10-14T22:43:06.2226773+02:00</Time>
     </Item>
+    <Item>
+      <Source>Cube2.fbx</Source>
+      <Name>Cube2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\Content\Cube2.xnb</Output>
+      <Time>2012-10-27T16:37:22.5596121+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Cube2_0.xml</Key>
+        <Value>2012-10-27T16:37:54.779455+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Cube2.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Cube2_0.xml</Output>
+      <Time>2012-10-27T16:37:22.5596121+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Cube3.fbx</Source>
+      <Name>Cube3</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\VisualMill\bin\x86\Debug\Content\Cube3.xnb</Output>
+      <Time>2012-10-28T12:45:27.4934214+01:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Cube3_0.xml</Key>
+        <Value>2012-10-28T12:45:32.940733+01:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Cube3.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Cube3_0.xml</Output>
+      <Time>2012-10-28T12:45:27.4934214+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
