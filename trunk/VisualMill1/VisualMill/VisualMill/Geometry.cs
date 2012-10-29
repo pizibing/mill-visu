@@ -120,24 +120,24 @@ namespace VisualMill
 
             public void Draw()
             {
-                RasterizerState state = new RasterizerState();
-                state.CullMode = CullMode.None;
-                state.FillMode = FillMode.WireFrame;
-                GraphicsDevice.RasterizerState = state;
+                //RasterizerState state = new RasterizerState();
+                //state.CullMode = CullMode.None;
+                //state.FillMode = FillMode.WireFrame;
+                //GraphicsDevice.RasterizerState = state;
                 
-                //DrawMesh
-                effect.CurrentTechnique = effect.Techniques["Colored"];
-                effect.CurrentTechnique.Passes[0].Apply();              
-                GraphicsDevice.SetVertexBuffer(myVertexBufferMesh);
-                GraphicsDevice.Indices = myIndexBufferMesh;
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
-                    foreach (PlotSegment Segment in PlotSegments)
-                    {
-                        GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, Segment.VertexStartIndex, Segment.VertexCounts, Segment.IndexStartIndex, Segment.IndexCounts);
-                    }
-                }
+                ////DrawMesh
+                //effect.CurrentTechnique = effect.Techniques["Colored"];
+                //effect.CurrentTechnique.Passes[0].Apply();              
+                //GraphicsDevice.SetVertexBuffer(myVertexBufferMesh);
+                //GraphicsDevice.Indices = myIndexBufferMesh;
+                //foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                //{
+                //    pass.Apply();
+                //    foreach (PlotSegment Segment in PlotSegments)
+                //    {
+                //        GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, Segment.VertexStartIndex, Segment.VertexCounts, Segment.IndexStartIndex, Segment.IndexCounts);
+                //    }
+                //}
             }
 
             public cMesh(GraphicsDevice Device, Effect GivenEffect, int Xsize, int Ysize)
@@ -214,7 +214,7 @@ namespace VisualMill
                 }
             }
 
-            public cMeshFromBitmap(GraphicsDevice Device, Effect GivenEffect,string Filename)
+            public cMeshFromBitmap(GraphicsDevice Device, Effect GivenEffect, string Filename)
             {
                 GraphicsDevice = Device;
                 effect = GivenEffect;
@@ -391,22 +391,10 @@ namespace VisualMill
 
             public void Draw()
             {
-                
-            }
-
-            public void Draw(Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix)
-            {
                 RasterizerState state = new RasterizerState();
                 state.CullMode = CullMode.None;
                 state.FillMode = FillMode.Solid;
                 GraphicsDevice.RasterizerState = state;
-
-                //create position rigth up
-                Vector3 Scale;
-                Quaternion Rotation;
-                Vector3 Transform;
-                worldMatrix.Decompose(out Scale, out Rotation, out Transform);
-                Matrix NewWorld = Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(250, 150, 10000-200);
 
                 //Draw Import Mesh
                 // Copy any parent transforms.
@@ -422,18 +410,11 @@ namespace VisualMill
                     // This is where the mesh orientation is set, as well 
                     // as our camera and projection.
                     foreach (BasicEffect Modeffect in mesh.Effects)
-                    {                       
+                    {
                         Modeffect.EnableDefaultLighting();
-                        Modeffect.World = transforms[mesh.ParentBone.Index] * NewWorld;
-                        //Modeffect.View = Matrix.CreateLookAt(new Vector3(0,0,500),
-                        Modeffect.View = viewMatrix;
-                        // new Vector3(0,0,0), Vector3.Up);
-
-                        //Modeffect.Projection = Matrix.CreatePerspectiveFieldOfView(
-                        //    MathHelper.ToRadians(45.0f), aspectRatio,
-                        //    1.0f, 10000.0f);
-
-                        Modeffect.Projection = projectionMatrix;
+                        Modeffect.World = transforms[mesh.ParentBone.Index] * effect.Parameters["xWorld"].GetValueMatrix();
+                        Modeffect.View = effect.Parameters["xView"].GetValueMatrix();
+                        Modeffect.Projection = effect.Parameters["xProjection"].GetValueMatrix();
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
@@ -441,6 +422,64 @@ namespace VisualMill
             }
 
             public ImportMesh(GraphicsDevice Device, Effect GivenEffect, Model CurrentModel)
+            {
+                GraphicsDevice = Device;
+                effect = GivenEffect;
+                myModel = CurrentModel;
+            }
+
+
+        }
+
+        public class Orientation : IDrawableObject
+        {
+            // Set the 3D model to draw.
+            Model myModel;
+            Effect effect;
+            GraphicsDevice GraphicsDevice;
+          
+            public void Draw() //Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix)
+            {
+                RasterizerState state = new RasterizerState();
+                state.CullMode = CullMode.None;
+                state.FillMode = FillMode.Solid;
+                GraphicsDevice.RasterizerState = state;
+
+                //create position rigth up
+                Vector3 Scale;
+                Quaternion Rotation;
+                Vector3 Transform;
+
+                Matrix OldWorld=effect.Parameters["xWorld"].GetValueMatrix() ;
+                OldWorld.Decompose(out Scale, out Rotation, out Transform);
+                Matrix NewWorld = Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(250, 150, 10000 - 200);
+
+                //Draw Import Mesh
+                // Copy any parent transforms.
+                Matrix[] transforms = new Matrix[myModel.Bones.Count];
+                myModel.CopyAbsoluteBoneTransformsTo(transforms);
+
+                //effect.CurrentTechnique = effect.Techniques["Colored"];
+                //effect.CurrentTechnique.Passes[0].Apply();  
+
+                // Draw the model. A model can have multiple meshes, so loop.
+                foreach (ModelMesh mesh in myModel.Meshes)
+                {
+                    // This is where the mesh orientation is set, as well 
+                    // as our camera and projection.
+                    foreach (BasicEffect Modeffect in mesh.Effects)
+                    {
+                        Modeffect.EnableDefaultLighting();
+                        Modeffect.World = transforms[mesh.ParentBone.Index] * NewWorld;
+                        Modeffect.View = effect.Parameters["xView"].GetValueMatrix();
+                        Modeffect.Projection = effect.Parameters["xProjection"].GetValueMatrix();
+                    }
+                    // Draw the mesh, using the effects set above.
+                    mesh.Draw();
+                }
+            }
+
+            public Orientation(GraphicsDevice Device, Effect GivenEffect, Model CurrentModel)
             {
                 GraphicsDevice = Device;
                 effect = GivenEffect;

@@ -29,7 +29,7 @@ namespace VisualMill
 
         Effect effect;
         Geometry.cNCPath NCPath;
-        Geometry.ImportMesh Mesh;
+        Geometry.Orientation Mesh;
 
         //Save all view Settings
         Matrix worldMatrix;
@@ -38,6 +38,8 @@ namespace VisualMill
         float PixelUnitRatio;
         // The aspect ratio determines how to scale 3d to 2d projection.
         float aspectRatio;
+
+        List<Geometry.IDrawableObject> Objekts = new List<Geometry.IDrawableObject>();
 
         #region BasicSettings
 
@@ -335,17 +337,12 @@ namespace VisualMill
             state.FillMode = FillMode.WireFrame;
             GraphicsDevice.RasterizerState = state;
             effect = Content.Load<Effect>("effect");
- 
-
-            //Load fxB File
-            // myModel = Content.Load<Model>("Frau");
-
-            //CreateMesh(30, 30);
-            //CreateMeshFromBitmap(@"C:\Users\bboeck\Desktop\VisualMill1\TestAusgabeSmal.jpg");
-             
-            NCPath = new Geometry.cNCPath(GraphicsDevice, effect, @"I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\Testdaten\OBERTEIL_SCHRUPPEN.NC");
-            Mesh= new Geometry.ImportMesh(GraphicsDevice,effect,Content.Load<Model>("Cube3"));
-       
+           
+            //Objekts.Add(new Geometry.ImportMesh(GraphicsDevice, effect, Content.Load<Model>("Globe")));
+            //Objekts.Add(new Geometry.cMesh(GraphicsDevice, effect,30, 30));
+            //Objekts.Add(new Geometry.cMeshFromBitmap(GraphicsDevice, effect, @"I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2010\Projects\DirectXSamples\Meshes\tiger.bmp"));
+            Objekts.Add(new Geometry.cNCPath(GraphicsDevice, effect, @"I:\Eigene Dateien\Eigene Dokumente\Visual Studio 2008\Projects\SVN\VisualMill1\VisualMill\Testdaten\OBERTEIL_SCHRUPPEN.NC"));
+            Objekts.Add(new Geometry.Orientation(GraphicsDevice, effect, Content.Load<Model>("Cube3")));       
         }
 
         /// <summary>
@@ -436,8 +433,10 @@ namespace VisualMill
 
             //  effect.CurrentTechnique.Passes[0].Apply();
 
-            NCPath.Draw();    
-            Mesh.Draw(worldMatrix, viewMatrix, projectionMatrix);
+            foreach (Geometry.IDrawableObject Objekt in Objekts)
+            {
+                Objekt.Draw();
+            }
     
             base.Draw(gameTime);
         }
